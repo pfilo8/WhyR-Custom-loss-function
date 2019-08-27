@@ -12,10 +12,11 @@ Outline of presentation:
 
 TODO:
 
-* Select functions
-* Generate artificial data
-* Encode real data
-* Learn XGBoost in R
+* Skrócić wyrażenia z loss functions jeśli się da. Ew. wprowadzić stosunek $a_{01}/a_{10}$ (zmienić też niejasne nazwy)
+* Policzyć pochodne i hessiany tych wyrażeń
+* Zaimplementować je w R i zobaczyć jakie wyniki wychodzą dla XGBoosta
+* Zanonimizować dane rzeczywiste (projekt na gitlabie wiadomy, branch Modeling Iter2, Modeling/31_Modeling_MOD_iter2.ipynb, 3/4 komórka zawiera preprocessing danych oraz ścieżkę do pliku)
+* Wymyślić metodologię porównywania wyników (proponuję zapinać się na AUCPR)
 
 Custom Loss Functions
 ---------------------
