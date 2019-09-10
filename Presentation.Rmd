@@ -155,6 +155,7 @@ Where $\hat{y}=P(y^=1|X)$
 
 References:
 
+* https://arxiv.org/pdf/1708.02002.pdf
 * http://proceedings.mlr.press/v74/resheff17a/resheff17a.pdf
 * http://neuralnetworksanddeeplearning.com/chap3.html (Pochodne cross-entropy)
 * https://www.di.ens.fr/~fbach/bach06a.pdf
