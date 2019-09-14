@@ -3,6 +3,8 @@ library(readr)
 library(dplyr)
 library(mlr)
 library(parallelMap)
+
+source("aucpr_measure.R")
 parallelStartMulticore(3)
 
 task <- makeClassifTask(id="CE-xgboost", data = df, target = "TARGET", positive = 1)
@@ -20,3 +22,12 @@ xgb_params <- makeParamSet(
 )
 control <- makeTuneControlRandom(maxit = 1)
 resample_desc <- makeResampleDesc("CV", iters = 2)
+
+tunedParams <- tuneParams(learner = learner,
+                          task = task,
+                          resampling = resample_desc,
+                          measures = aucpr,
+                          par.set = xgb_params,
+                          control=control)
+
+parallelStop()
