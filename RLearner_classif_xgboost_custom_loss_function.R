@@ -1,3 +1,7 @@
+library(xgboost)
+library(rlist)
+library(mlr)
+
 #' @export
 makeRLearner.classif.xgboost.custom.loss.function = function() {
   makeRLearnerClassif(
@@ -19,7 +23,13 @@ makeRLearner.classif.xgboost.custom.loss.function = function() {
       makeNumericLearnerParam(id = "lambda", default = 1, lower = 0),
       makeNumericLearnerParam(id = "lambda_bias", default = 0, lower = 0),
       makeNumericLearnerParam(id = "alpha", default = 0, lower = 0),
-      makeUntypedLearnerParam(id = "objective", default = "binary:logistic", tunable = FALSE),
+      makeUntypedLearnerParam(id = "objective", default = "binary:logistic", tunable = TRUE),
+      # Custom objective parameters
+      makeNumericLearnerParam(id = "focal_loss_gamma", lower = 0),
+      makeNumericLearnerParam(id = "weighted_cross_entropy_loss_weight", lower = 1),
+      makeNumericLearnerParam(id = "biliniear_loss_weight", lower = 1),
+      makeNumericLearnerParam(id = "biliniear_loss_alpha", lower = 0, upper = 1),
+      #
       makeUntypedLearnerParam(id = "eval_metric", default = "error", tunable = FALSE),
       makeNumericLearnerParam(id = "base_score", default = 0.5, tunable = FALSE),
       makeNumericLearnerParam(id = "max_delta_step", lower = 0, default = 0),
@@ -75,6 +85,31 @@ trainLearner.classif.xgboost.custom.loss.function = function(.learner, .task, .s
   if (is.null(parlist$watchlist)) {
     parlist$watchlist = list(train = parlist$data)
   }
+  
+  if (class(parlist$ojective) != "character"){
+    if (!is.null(parlist$focal_loss_gamma)){
+      parlist$objective = .learner$par.vals$objective(
+        focal_loss_gamma = parlist$focal_loss_gamma
+        )
+      parlist <- list.remove(parlist, "focal_loss_gamma")
+    }
+    else if (!is.null(parlist$weighted_cross_entropy_loss_weight)){
+      parlist$objective = .learner$par.vals$objective(
+        weighted_cross_entropy_loss_weight = parlist$weighted_cross_entropy_loss_weight
+        )
+      parlist <- list.remove(parlist, "weighted_cross_entropy_loss_weight")
+    }
+    else if (!is.null(parlist$biliniear_loss_weight) & !is.null(parlist$biliniear_loss_alpha)){
+      parlist$objective = .learner$par.vals$objective(
+        biliniear_loss_weight = parlist$biliniear_loss_weight, 
+        biliniear_loss_alpha = parlist$biliniear_loss_alpha
+        )
+      parlist <- list.remove(parlist, c("biliniear_loss_weight", "biliniear_loss_alpha"))
+    }
+    else {
+      parlist$objective = .learner$par.vals$objective()
+    }
+  }
 
   do.call(xgboost::xgb.train, parlist)
 }
@@ -93,36 +128,18 @@ predictLearner.classif.xgboost.custom.loss.function = function(.learner, .model,
   }
 
   p = predict(m, newdata = data.matrix(.newdata), ...)
-
-  if (nc == 2L) { # binaryclass
-      y = matrix(0, ncol = 2, nrow = nrow(.newdata))
-      colnames(y) = cls
-      y[, 1L] = 1 - p
-      y[, 2L] = p
-    if (.learner$predict.type == "prob") {
-      return(y)
-    } else {
-      p = colnames(y)[max.col(y)]
-      names(p) = NULL
-      p = factor(p, levels = colnames(y))
-      return(p)
-    }
-  } else { # multiclass
-    if (.learner$par.vals$objective == "multi:softmax") {
-      p = as.factor(p) # special handling for multi:softmax which directly predicts class levels
-      levels(p) = cls
-      return(p)
-    } else {
-      p = matrix(p, nrow = length(p) / nc, ncol = nc, byrow = TRUE)
-      colnames(p) = cls
-      if (.learner$predict.type == "prob") {
-        return(p)
-      } else {
-        ind = max.col(p)
-        cns = colnames(p)
-        return(factor(cns[ind], levels = cns))
-      }
-    }
+  # Supprots only binaryclass
+  y = matrix(0, ncol = 2, nrow = nrow(.newdata))
+  colnames(y) = cls
+  y[, 1L] = 1 - p
+  y[, 2L] = p
+  if (.learner$predict.type == "prob") {
+    return(y)
+  } else {
+    p = colnames(y)[max.col(y)]
+    names(p) = NULL
+    p = factor(p, levels = colnames(y))
+    return(p)
   }
 }
 
