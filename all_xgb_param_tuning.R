@@ -8,11 +8,9 @@ source("loss_functions.R")
 source('RLearner_classif_xgboost_custom_loss_function.R')
 source("aucpr_measure.R")
 parallelStartMulticore(8)
-
 set.seed(42)
 
-df <- read_csv("data/PCA_Insurance_Frauds.csv")
-df <- df %>% select(-EVENT_DATE)
+df <- read_csv("data/PCA_Insurance_Frauds_Train.csv")
 df$TARGET <- factor(df$TARGET)
 
 task <-
@@ -77,7 +75,7 @@ get.tuned.params <- function(df, task, learner, par.set) {
     learner = learner,
     task = task,
     resampling = resample_desc,
-    measures = aucpr,
+    measures = list(aucpr, aucpr_train),
     par.set = par.set,
     control = control
   )
