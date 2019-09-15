@@ -43,7 +43,9 @@ standard_xgb_params <- makeParamSet(
     upper = 0,
     trafo = function(x)
       10 ^ x
-  ))
+  ),
+  makeNumericParam("colsample_bytree", lower = 0.4, upper = 1),
+  makeNumericParam("subsample", lower = 0.4, upper = 1))
 
 focal_loss_xgb_params <- c(
   standard_xgb_params, 
@@ -70,14 +72,14 @@ bilinear_loss_xgb_params <- c(
 
 get.tuned.params <- function(df, task, learner, par.set) {
 
-  control <- makeTuneControlGenSA(budget = 1)
-  resample_desc <- makeResampleDesc("CV", iters = 2)
+  control <- makeTuneControlMBO(bufget=30)
+  resample_desc <- makeResampleDesc("CV", iters = 5, stratify = TRUE)
   
   tunedParams <- tuneParams(
     learner = learner,
     task = task,
     resampling = resample_desc,
-    measures = aucpr,
+    measures = c(aucpr, aucpr_train),
     par.set = par.set,
     control = control
   )
@@ -111,5 +113,5 @@ tune_results <-
     params
   )
 
-#save(tune_results, file="tune_results.Rdata")
-#parallelStop()
+save(tune_results, file="tune_results.Rdata")
+parallelStop()
