@@ -1,0 +1,4 @@
+[Tune-x] 41: nrounds=283; max_depth=6; eta=0.0073; lambda=0.695
+Mapping in parallel: mode = multicore; level = mlr.resample; cpus = 8; elements = 5.
+[Tune-y] 41: aucpr.test.mean=0.0516409; time: 19.4 min
+

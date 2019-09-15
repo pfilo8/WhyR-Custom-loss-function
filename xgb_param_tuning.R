@@ -17,17 +17,16 @@ task <-
     target = "TARGET",
     positive = 1
   )
-standard_xgb_learner <-
-  makeLearner("classif.xgboost", predict.type = "prob")
+standard_xgb_learner <- makeLearner("classif.xgboost", predict.type = "prob")
 
-get.tuned.params <- function(df, task, learner) {
+get.tuned.params <- function(task, given_learner) {
   xgb_params <- makeParamSet(
     # The number of trees in the model (each one built sequentially)
     makeIntegerParam("nrounds", lower = 100, upper = 500),
     # number of splits in each tree
-    makeIntegerParam("max_depth", lower = 1, upper = 10),
+    makeIntegerParam("max_depth", lower = 4, upper = 10),
     # "shrinkage" - prevents overfitting
-    makeNumericParam("eta", lower = .1, upper = .5),
+    makeNumericParam("eta", lower = -4, upper = -2, trafo = function(x) 10^x),
     # L2 regularization - prevents overfitting
     makeNumericParam(
       "lambda",
@@ -37,11 +36,11 @@ get.tuned.params <- function(df, task, learner) {
         10 ^ x
     )
   )
-  control <- makeTuneControlGenSA(budget = 30)
-  resample_desc <- makeResampleDesc("CV", iters = 2)
+  control <- makeTuneControlGenSA(budget=30)
+  resample_desc <- makeResampleDesc("CV", iters = 5)
   
   tunedParams <- tuneParams(
-    learner = learner,
+    learner = given_learner,
     task = task,
     resampling = resample_desc,
     measures = aucpr,
@@ -51,14 +50,13 @@ get.tuned.params <- function(df, task, learner) {
   return(tunedParams)
 }
 
-learners <- c(standard_xgb_learner)
+learners <- list(standard_xgb_learner)
 
 tune_results <-
-  lapply(learners, function(learner) {
-    get.tuned.params(df = df,
-                     task = task,
-                     learner = learner)
+  lapply(learners, function(l) {
+    get.tuned.params(task = task,
+                     given_learner = l)
   })
 
-save(tune_results, file="tune_results.Rdata")
+save(tune_results, file = "tune_results.Rdata")
 parallelStop()

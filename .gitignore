@@ -2,4 +2,4 @@
 .Rhistory
 .Rproj.user/
 .Rproj.user
-data/PCA_Insurance_Frauds.csv
+data/*csv
