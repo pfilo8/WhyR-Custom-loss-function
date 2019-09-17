@@ -38,10 +38,9 @@ weighted_cross_entropy_loss_with_params <- function(weighted_cross_entropy_loss_
   weighted_cross_entropy_loss <- function(preds, dtrain) {
     labels <- getinfo(dtrain, "label")
     preds <- 1/(1 + exp(-preds))
-    alpha <- 200
     
-    grad <- -(alpha ** labels) * (labels - preds)
-    hess <- (alpha ** labels) * preds * (1 - preds)
+    grad <- -(weighted_cross_entropy_loss_weight ** labels) * (labels - preds)
+    hess <- (weighted_cross_entropy_loss_weight ** labels) * preds * (1 - preds)
     
     return(list(grad = grad, hess = hess))
   }
@@ -57,16 +56,14 @@ bilinear_loss_with_params <- function(biliniear_loss_weight = 1, biliniear_loss_
   bilinear_loss <- function(preds, dtrain) {
     labels <- getinfo(dtrain, "label")
     preds <- 1/(1 + exp(-preds))
-    alpha <- 0.25
-    cost <- 5
     
     grad_ce <- preds - labels
-    grad_l <- preds*(1 - preds)*(1 - labels*(1 + cost))
-    grad <- (1 - alpha)*grad_ce + alpha*grad_l
+    grad_l <- preds*(1 - preds)*(1 - labels*(1 + biliniear_loss_weight))
+    grad <- (1 - biliniear_loss_alpha)*grad_ce + biliniear_loss_alpha*grad_l
     
     hess_ce <- preds*(1 - preds)
     hess_l <- grad_l*(1 - 2*preds)
-    hess <- (1 - alpha)*hess_ce + alpha*hess_l
+    hess <- (1 - biliniear_loss_alpha)*hess_ce + biliniear_loss_alpha*hess_l
     
     return(list(grad = grad, hess = hess))
   }
