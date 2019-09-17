@@ -1,0 +1,95 @@
+---
+title: Custom loss functions for binary classification problems with highly imbalanced
+  dataset using Extreme Gradient Boosted Trees
+author: "Bartosz Kolasa, Patryk Wielopolski"
+date: "17 września 2019"
+output: ioslides_presentation
+---
+
+## About us
+
+
+Photos of me and Bartek
+
+Data Science Team at DataWalk
+
+## Agenda
+
+1) Motivation and problem statement 
+2) Theoretical aspect
+3) Experiment
+4) Implementation challenges
+5) Results and conclusions
+
+## Motivation
+
+1) Assymetrical cost of mistakes both in classification and regression problems
+2) Highly imbalanced dataset
+3)
+
+
+## Problem statement
+
+Imbalanced dataset
+
+Currently: symetric loss function - cross entropy
+
+Tool: XGBoost with custom loss function
+
+
+## Custom Loss Functions
+
+- Weighted Cross Entropy
+$$ L_{CE}=−Dylog(\hat{y})+(1−y)log(1−\hat{y}) $$
+- Focal Loss
+$$ FL = -y(1-\hat{y})^{\gamma}log(\hat{y}) - (1-y)\hat{y}^{\gamma}log(1-\hat{y}) $$
+- Bilinear Loss
+$$ L_{CE+B}=(1-\alpha)[−ylog(\hat{y})+(1−y)log(1−\hat{y})] + \alpha[yD + \hat{y} -y\hat{y}(1+D)]$$
+- Log Bilinear Loss (after transformations equatl to Weigted Cross Entropy)
+
+## Experiment descriptions
+
+Dataset:
+- Real-world dataset from Insurance Industry (PCA)
+
+Metric:
+- AUCPR (description)
+
+Experiment:
+- best AUCPR for all proposed custom loss functions
+
+
+## Implementation
+
+For implementation we used widely known R packages:
+
+- xgboost
+- dplyr
+- mlr
+
+Contibution:
+
+- AUCPR (for train and test dataset)
+- Wrapper for XGBoost with custom loss function
+- Loss functions implementation
+
+## Results
+
+To be announced.
+
+## Conclusions
+
+To be announced.
+
+## References
+
+References
+
+## 
+
+Thanks for your attention!
+
+Questions?
+
+
+
