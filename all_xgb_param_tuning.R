@@ -7,7 +7,7 @@ library(parallelMap)
 source("loss_functions.R")
 source('RLearner_classif_xgboost_custom_loss_function.R')
 source("aucpr_measure.R")
-parallelStartMulticore(8)
+parallelStartMulticore(32)
 set.seed(42)
 
 df <- read_csv("data/PCA_Insurance_Frauds_Train.csv")
@@ -48,7 +48,7 @@ standard_xgb_params <- makeParamSet(
 focal_loss_xgb_params <- c(
   standard_xgb_params, 
   makeParamSet(
-    makeNumericParam("focal_loss_gamma", lower = 1, upper = 8)
+    makeNumericParam("focal_loss_gamma", lower = -1, upper = 1, trafo = function(x) 10^x)
     )
   )
 
@@ -70,14 +70,14 @@ bilinear_loss_xgb_params <- c(
 
 get.tuned.params <- function(df, task, learner, par.set) {
 
-  control <- makeTuneControlMBO(bufget=30)
+  control <- makeTuneControlRandom(maxit = 64L)
   resample_desc <- makeResampleDesc("CV", iters = 5, stratify = TRUE)
   
   tunedParams <- tuneParams(
     learner = learner,
     task = task,
     resampling = resample_desc,
-    measures = c(aucpr, aucpr_train),
+    measures = list(aucpr, aucpr_train),
     par.set = par.set,
     control = control
   )
@@ -85,14 +85,14 @@ get.tuned.params <- function(df, task, learner, par.set) {
 }
 
 learners <- list(
-  standard_xgb_learner, 
+#  standard_xgb_learner, 
   focal_loss_xgb_learner, 
   weighted_cross_entropy_xgb_learner, 
   bilinear_loss_xgb_learner
   )
 
 params <- list(
-  standard_xgb_params,
+#  standard_xgb_params,
   focal_loss_xgb_params,
   weighted_cross_entropy_xgb_params,
   bilinear_loss_xgb_params

@@ -2,3 +2,7 @@
 Mapping in parallel: mode = multicore; level = mlr.resample; cpus = 8; elements = 5.
 [Tune-y] 41: aucpr.test.mean=0.0516409; time: 19.4 min
 
+#Random search for standard xgboost
+
+Result: nrounds=215; max_depth=8; eta=0.142; lambda=0.15; colsample_bytree=0.908; subsample=0.781 : aucpr.test.mean=0.0694715,aucpr_train.test.mean=0.8401387
+
