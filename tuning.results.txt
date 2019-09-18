@@ -6,3 +6,11 @@ Mapping in parallel: mode = multicore; level = mlr.resample; cpus = 8; elements 
 
 Result: nrounds=215; max_depth=8; eta=0.142; lambda=0.15; colsample_bytree=0.908; subsample=0.781 : aucpr.test.mean=0.0694715,aucpr_train.test.mean=0.8401387
 
+# Random search for focal loss xgboost
+[Tune] Result: nrounds=445; max_depth=10; eta=0.102; lambda=0.53; colsample_bytree=0.485; subsample=0.813; focal_loss_gamma=2.02 : aucpr.test.mean=0.0710705,aucpr_train.test.mean=0.8448369
+
+# Random search for weighted cross entropy
+[Tune] Result: nrounds=158; max_depth=5; eta=0.137; lambda=0.24; colsample_bytree=0.865; subsample=0.47; weighted_cross_entropy_loss_weight=6.24 : aucpr.test.mean=0.0661830,aucpr_train.test.mean=0.826781$
+
+# Random search for bilinear
+Result: nrounds=418; max_depth=5; eta=0.112; lambda=0.195; colsample_bytree=0.564; subsample=0.84; biliniear_loss_weight=135; biliniear_loss_alpha=0.678 : aucpr.test.mean=0.0563763,aucpr_train.test.mean=0.4145916
