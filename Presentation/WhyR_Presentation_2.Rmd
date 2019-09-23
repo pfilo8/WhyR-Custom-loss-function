@@ -1,15 +1,21 @@
 ---
-title: Custom loss functions for binary classification problems with highly imbalanced
-  dataset using Extreme Gradient Boosted Trees
+title: Custom loss functions for binary classification problems with highly imbalanced dataset <br> using Extreme Gradient Boosted Trees
+
 author: "Bartosz Kolasa, Patryk Wielopolski"
-date: "17 września 2019"
-output: ioslides_presentation
+date: "28 September 2019"
+output: 
+  ioslides_presentation:
+    widescreen: true
+    self_contained: no
+    incremental: true
+    css: milligram.css
+bibliography: references.bib
+nocite: '@*'
 ---
 
 ## About us
 
-
-Photos of me and Bartek
+![Photos of me and Bartek](image.png)
 
 Data Science Team at DataWalk
 
@@ -21,23 +27,31 @@ Data Science Team at DataWalk
 4) Implementation challenges
 5) Results and conclusions
 
-## Motivation
+# Motivation and problem statement
 
-1) Assymetrical cost of mistakes both in classification and regression problems
-2) Highly imbalanced dataset
-3)
+## Motivation 
+
+- Asymetrical cost of mistakes both in classification and regression problems
+- Highly imbalanced dataset
 
 
 ## Problem statement
 
-Imbalanced dataset
+Dataset:
 
-Currently: symetric loss function - cross entropy
+- Imbalanced dataset
 
-Tool: XGBoost with custom loss function
+Problem: 
 
+- Classification problem = Cross entropy (symetric function)
 
-## Custom Loss Functions
+Tool: 
+
+- XGBoost with implementation of custom loss function
+
+# Theoretical aspect
+
+## Custom Loss Functions {.smaller}
 
 - Weighted Cross Entropy
 $$ L_{CE}=−Dylog(\hat{y})+(1−y)log(1−\hat{y}) $$
@@ -45,19 +59,25 @@ $$ L_{CE}=−Dylog(\hat{y})+(1−y)log(1−\hat{y}) $$
 $$ FL = -y(1-\hat{y})^{\gamma}log(\hat{y}) - (1-y)\hat{y}^{\gamma}log(1-\hat{y}) $$
 - Bilinear Loss
 $$ L_{CE+B}=(1-\alpha)[−ylog(\hat{y})+(1−y)log(1−\hat{y})] + \alpha[yD + \hat{y} -y\hat{y}(1+D)]$$
-- Log Bilinear Loss (after transformations equatl to Weigted Cross Entropy)
+- Log Bilinear Loss (after transformations equal to Weigted Cross Entropy)
+
+# Experiment
 
 ## Experiment descriptions
 
 Dataset:
+
 - Real-world dataset from Insurance Industry (PCA)
 
 Metric:
-- AUCPR (description)
+
+- AUCPR
 
 Experiment:
-- best AUCPR for all proposed custom loss functions
 
+- Best AUCPR for all proposed custom loss functions
+
+# Implementation challenges
 
 ## Implementation
 
@@ -67,29 +87,46 @@ For implementation we used widely known R packages:
 - dplyr
 - mlr
 
-Contibution:
+## Contribution
 
-- AUCPR (for train and test dataset)
-- Wrapper for XGBoost with custom loss function
-- Loss functions implementation
+Our contributions:
+
+- Providing essential derivatives for bilinear loss
+- Providing calculations about equality of log-bilinear loss and weighted cross entropy
+- Implementation of custom loss functions
+- Implementation of mlr wrapper for XGBoost with custom loss functions
+- Implementation of mlr wrapper for AUCPR measure
 
 ## Results
 
 To be announced.
+```{r echo = FALSE, results = 'asis'}
+library(knitr)
+
+results <- data.frame(
+  'Loss function' = c('AUCPR', 'AUCPR @ 0.75'),
+  'Cross Entropy' = c(0.23, 0.34),
+  'Focal loss' = c(0.023 , 0.1),
+  'Weighted CE' = c(0.7, 0.99),
+  'Bilinear' = c(0.1, 0.23),
+  stringsAsFactors = FALSE
+)
+
+kable(results)
+```
 
 ## Conclusions
 
-To be announced.
+- Conclusion 1
+- Conclusion 2
+
+## {.flexbox .vcenter}
+
+### Thanks for your attention!
+
+### Questions?
 
 ## References
-
-References
-
-## 
-
-Thanks for your attention!
-
-Questions?
 
 
 
