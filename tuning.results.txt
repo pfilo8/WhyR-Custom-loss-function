@@ -17,13 +17,19 @@ Result: nrounds=418; max_depth=5; eta=0.112; lambda=0.195; colsample_bytree=0.56
 
 # MBO for standard xgboost
 Result: nrounds=298; max_depth=10; eta=0.1; lambda=0.91; colsample_bytree=0.604; subsample=0.933 : aucpr.test.mean=0.0742625
+[Tune-x] 21: nrounds=298; max_depth=10; eta=0.1; lambda=0.91; colsample_bytree=0.604; subsample=0.933 
+[Tune-y] 21: aucpr.test.mean=0.0742625,aucpr_train.test.mean=0.8438194,aucpr_perc.test.mean=0.1293534; time: 4.9 min 
 
 # MBO for focal loss xgboost
 [Tune] Result: nrounds=285; max_depth=10; eta=0.1; lambda=0.128; colsample_bytree=0.96; subsample=0.854; focal_loss_gamma=0.861 : aucpr.test.mean=0.0727012
+[Tune-x] 17: nrounds=285; max_depth=10; eta=0.1; lambda=0.128; colsample_bytree=0.96; subsample=0.854; focal_loss_gamma=0.861
+[Tune-y] 17: aucpr.test.mean=0.0727012,aucpr_train.test.mean=0.8444299,aucpr_perc.test.mean=0.1268856; time: 8.4 min
 
-#MBO for weighted CE
+# MBO for weighted CE
 [Tune-x] 1: nrounds=467; max_depth=10; eta=0.1; lambda=0.395; colsample_bytree=0.646; subsample=0.916; weighted_cross_entropy_loss_weight=2.87
 [Tune-y] 1: aucpr.test.mean=0.0724779,aucpr_train.test.mean=0.8445200,aucpr_perc.test.mean=0.1277092; time: 7.4 min
 
 # MBO for bilinear loss
 [Tune] Result: nrounds=418; max_depth=9; eta=0.121; lambda=0.415; colsample_bytree=0.535; subsample=0.899; biliniear_loss_weight=159; biliniear_loss_alpha=0.544 : aucpr.test.mean=0.0641854 
+[Tune-x] 12: nrounds=418; max_depth=9; eta=0.121; lambda=0.415; colsample_bytree=0.535; subsample=0.899; biliniear_loss_weight=159; biliniear_loss_alpha=0.544
+[Tune-y] 12: aucpr.test.mean=0.0641854,aucpr_train.test.mean=0.7389871,aucpr_perc.test.mean=0.1176904; time: 6.2 min
