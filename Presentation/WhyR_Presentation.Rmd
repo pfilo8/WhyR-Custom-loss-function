@@ -99,16 +99,15 @@ Our contributions:
 
 ## Results
 
-To be announced.
 ```{r echo = FALSE, results = 'asis'}
 library(knitr)
 
 results <- data.frame(
   'Loss function' = c('AUCPR', 'AUCPR @ 0.75'),
-  'Cross Entropy' = c(0.23, 0.34),
-  'Focal loss' = c(0.023 , 0.1),
-  'Weighted CE' = c(0.7, 0.99),
-  'Bilinear' = c(0.1, 0.23),
+  'Cross Entropy' = c(0.0742625, 0),
+  'Focal loss' = c(0.0727012 , 0),
+  'Weighted CE' = c(0.0724779, 0),
+  'Bilinear' = c(0.0641854, 0),
   stringsAsFactors = FALSE
 )
 

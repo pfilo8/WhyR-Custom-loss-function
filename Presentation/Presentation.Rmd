@@ -76,32 +76,37 @@ library(ggplot2)
 library(latex2exp)
 library(patchwork)
 
-bilinear <- function(y_true, y_pred, A) {
-  y_true*A[2, 1] + y_pred*A[1, 2] - y_true*y_pred*(A[1, 2] + A[2, 1])
-}
-
-logbilinear <- function(y_true, y_pred, A) {
-  -y_true*log(y_pred)*A[2, 1] - (1-y_true)*log(1-y_pred)*A[1, 2]
+bilinear <- function(y_true, y_pred, alpha, D) {
+  (1-alpha)*cross_entropy(y_true, y_pred) + alpha*(y_true*D + y_pred - y_true*y_pred*(1+D))
 }
 
 cross_entropy <- function(y_true, y_pred){
   -y_true*log(y_pred) - (1-y_true)*log(1-y_pred)
 }
 
-cost_functions_comparison <- function(alpha, A){
+weighted_cross_entropy <- function(y_true, y_pred, D){
+  -D*y_true*log(y_pred) - (1-y_true)*log(1-y_pred)
+}
+
+focal_loss <- function(y_true, y_pred, g){
+  -y_true*(1-y_pred)^(g)*log(y_pred) - (1-y_true)*y_pred^(g)*log(1-y_pred)
+}
+
+
+cost_functions_comparison <- function(){
   t <- seq(from = 0.0001, to = 0.9999, by = 0.0001)
   
   cross_entropy_0 <- sapply(t, function(t){cross_entropy(0, t)})
   cross_entropy_1 <- sapply(t, function(t){cross_entropy(1, t)})
   cross_entropy_plot <- data.frame(t, cross_entropy_0, cross_entropy_1)
   
-  bilinear_0 <- sapply(t, function(t){(1-alpha)*cross_entropy(0, t) + alpha*bilinear(0, t, A)})
-  bilinear_1 <- sapply(t, function(t){(1-alpha)*cross_entropy(1, t) + alpha*bilinear(1, t, A)})
+  bilinear_0 <- sapply(t, function(t){bilinear(0, t, 0.5, 5)})
+  bilinear_1 <- sapply(t, function(t){bilinear(1, t, 0.5, 5)})
   bilinear_plot <- data.frame(t, bilinear_0, bilinear_1)
   
-  logbilinear_0 <- sapply(t, function(t){(1-alpha)*cross_entropy(0, t) + alpha*logbilinear(0, t, A)})
-  logbilinear_1 <- sapply(t, function(t){(1-alpha)*cross_entropy(1, t) + alpha*logbilinear(1, t, A)})
-  logbilinear_plot <- data.frame(t, logbilinear_0, logbilinear_1)
+  focal_loss_0 <- sapply(t, function(t){focal_loss(0, t, 2)})
+  focal_loss_1 <- sapply(t, function(t){focal_loss(1, t, 2)})
+  focal_loss_plot <- data.frame(t, focal_loss_0, focal_loss_1)
   
   ce_plot <- ggplot(cross_entropy_plot, aes(x = t)) + 
     geom_line(aes(y = cross_entropy_0)) + 
@@ -117,27 +122,20 @@ cost_functions_comparison <- function(alpha, A){
     ylab('Value of loss function') +
     ggtitle('Bilinear loss function')
 
-  lbl_plot <- ggplot(logbilinear_plot, aes(x = t)) + 
-    geom_line(aes(y = logbilinear_0)) + 
-    geom_line(aes(y = logbilinear_1)) +
+  lbl_plot <- ggplot(focal_loss_plot, aes(x = t)) + 
+    geom_line(aes(y = focal_loss_0)) + 
+    geom_line(aes(y = focal_loss_1)) +
     xlab(TeX('\\hat{y}')) + 
     ylab('Value of loss function') +
-    ggtitle('Logbilinear loss function')
+    ggtitle('Focal loss function')
 
   ce_plot + bl_plot + lbl_plot 
 }
 
-alpha <- 0.5
-CostMatrixSymetric <- matrix(c(0, 1, 1, 0), nrow = 2, ncol = 2)
-CostMatrixAsymetric <- matrix(c(0, 1, 3, 0), nrow = 2, ncol = 2)
 ```
 
 ```{r}
-cost_functions_comparison(alpha, CostMatrixSymetric)
-```
-
-```{r}
-cost_functions_comparison(alpha, CostMatrixAsymetric)
+cost_functions_comparison()
 ```
 
 
