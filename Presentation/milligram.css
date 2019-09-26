@@ -484,14 +484,6 @@ ul ul {
   margin: 1.5rem 0 1.5rem 3.0rem;
 }
 
-ol {
-  list-style: decimal inside;
-}
-
-ul {
-  list-style: circle inside;
-}
-
 .button,
 button,
 dd,
