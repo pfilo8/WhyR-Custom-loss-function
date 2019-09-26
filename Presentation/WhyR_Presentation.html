@@ -163,6 +163,19 @@ slide:not(.current) .plotly.html-widget{
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Theoretical aspect</h2></hgroup><article  id="theoretical-aspect">
 
+</article></slide><slide class=""><hgroup><h2>XGBoost recall</h2></hgroup><article  id="xgboost-recall">
+
+<p>Objective of XGBoost model at step \(t\)</p>
+
+<p>\[ \sum_{i=1}^{n}[g_if_t(x_i) + \frac{1}{2}h_if_t^2(x_i)] + \Omega(f_t) \]</p>
+
+<ul class = 'build'>
+<li>\(g_i\) - first derivative of loss function</li>
+<li>\(h_i\) - second derivative of loss function</li>
+<li>\(f_t\) - decision tree at step \(t\)</li>
+<li>\(\Omega\) - regularization term</li>
+</ul>
+
 </article></slide><slide class=""><hgroup><h2>Custom Loss Functions</h2></hgroup><article  id="custom-loss-functions" class="smaller">
 
 <ul class = 'build'>
@@ -175,7 +188,7 @@ slide:not(.current) .plotly.html-widget{
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Experiment</h2></hgroup><article  id="experiment">
 
-</article></slide><slide class=""><hgroup><h2>Experiment descriptions</h2></hgroup><article  id="experiment-descriptions">
+</article></slide><slide class=""><hgroup><h2>Experiment descriptions</h2></hgroup><article  id="experiment-descriptions" class="smaller">
 
 <p>Dataset:</p>
 
@@ -197,7 +210,7 @@ slide:not(.current) .plotly.html-widget{
 <ul class = 'build'>
 <li>Best AUCPR for all proposed custom loss functions</li>
 <li>5 fold stratified Cross Validation</li>
-<li>Hyperparameter using MBO</li>
+<li>Hyperparameter tuning using MBO</li>
 </ul>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Implementation challenges</h2></hgroup><article  id="implementation-challenges">
@@ -212,17 +225,27 @@ slide:not(.current) .plotly.html-widget{
 <li>mlr</li>
 </ul>
 
+<p> </p>
+
+<center>
+
+<img width="70%" src='images/logos.png' title=''/>
+
+</center>
+
 </article></slide><slide class=""><hgroup><h2>Contribution</h2></hgroup><article  id="contribution">
 
 <p>Our contributions:</p>
 
 <ul class = 'build'>
 <li>Providing essential derivatives for bilinear loss</li>
-<li>Providing calculations about equality of log-bilinear loss and weighted cross entropy</li>
+<li>Providing calculations about equality of log bilinear loss and weighted cross entropy</li>
 <li>Implementation of custom loss functions</li>
 <li>Implementation of mlr wrapper for XGBoost with custom loss functions</li>
 <li>Implementation of mlr wrapper for AUCPR measure</li>
 </ul>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Results and conclusions</h2></hgroup><article  id="results-and-conclusions">
 
 </article></slide><slide class=""><hgroup><h2>Results</h2></hgroup><article  id="results">
 
@@ -256,11 +279,14 @@ slide:not(.current) .plotly.html-widget{
 
 <h3>Questions?</h3>
 
-</article></slide><slide class=""><hgroup><h2>References</h2></hgroup><article  id="references" class="unnumbered">
+</article></slide><slide class=""><hgroup><h2>References</h2></hgroup><article  id="references" class="unnumbered smaller">
 
 <div id="refs" class="references">
 <div id="ref-mlrMBO">
 <p>Bischl, Bernd, Jakob Richter, Jakob Bossek, Daniel Horn, Janek Thomas, and Michel Lang. n.d. “mlrMBO: A Modular Framework for Model-Based Optimization of Expensive Black-Box Functions.”</p></div>
+
+<div id="ref-Davis:2006:RPR:1143844.1143874">
+<p>Davis, Jesse, and Mark Goadrich. n.d. “The Relationship Between Precision-Recall and Roc Curves.” In.</p></div>
 
 <div id="ref-2017arXiv170802002L">
 <p>Lin, Tsung-Yi, Priya Goyal, Ross Girshick, Kaiming He, and Piotr Dollár. n.d. “Focal Loss for Dense Object Detection.”</p></div>

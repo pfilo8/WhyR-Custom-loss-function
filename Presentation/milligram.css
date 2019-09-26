@@ -466,7 +466,6 @@ a:focus, a:hover {
 dl,
 ol,
 ul {
-  list-style: none;
   margin-top: 0;
   padding-left: 0;
 }

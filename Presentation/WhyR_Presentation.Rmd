@@ -21,11 +21,11 @@ Data Science Team at DataWalk
 
 ## Agenda
 
-1) Motivation and problem statement 
-2) Theoretical aspect
-3) Experiment
-4) Implementation challenges
-5) Results and conclusions
+1. Motivation and problem statement 
+2. Theoretical aspect
+3. Experiment
+4. Implementation challenges
+5. Results and conclusions
 
 # Motivation and problem statement
 
@@ -37,7 +37,6 @@ Data Science Team at DataWalk
 * Highly imbalanced dataset
     + Fraud detection
     + Object detection
-
 
 ## Problem statement
 
@@ -54,6 +53,17 @@ Tool:
 - XGBoost with implementation of custom loss function
 
 # Theoretical aspect
+
+## XGBoost recall
+
+Objective of XGBoost model at step $t$
+
+$$ \sum_{i=1}^{n}[g_if_t(x_i) + \frac{1}{2}h_if_t^2(x_i)] + \Omega(f_t) $$
+
+* $g_i$ - first derivative of loss function
+* $h_i$ - second derivative of loss function
+* $f_t$ - decision tree at step $t$
+* $\Omega$ - regularization term
 
 ## Custom Loss Functions {.smaller}
 
@@ -87,7 +97,7 @@ Experiment:
 
 - Best AUCPR for all proposed custom loss functions
 - 5 fold stratified Cross Validation
-- Hyperparameter using MBO
+- Hyperparameter tuning using MBO
 
 # Implementation challenges
 
@@ -99,15 +109,24 @@ For implementation we used widely known R packages:
 - dplyr
 - mlr
 
+&nbsp;
+
+<center>
+ ![Logos](images/logos.png){width=70%}
+</center>
+
+
 ## Contribution
 
 Our contributions:
 
 - Providing essential derivatives for bilinear loss
-- Providing calculations about equality of log-bilinear loss and weighted cross entropy
+- Providing calculations about equality of log bilinear loss and weighted cross entropy
 - Implementation of custom loss functions
 - Implementation of mlr wrapper for XGBoost with custom loss functions
 - Implementation of mlr wrapper for AUCPR measure
+
+# Results and conclusions
 
 ## Results
 
@@ -137,7 +156,5 @@ kable(results)
 
 ### Questions?
 
-## References
-
-
+## References {.smaller}
 
