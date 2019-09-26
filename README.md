@@ -13,6 +13,7 @@ install.packages(c("dplyr", "mlr", "mlrMBO", "PRROC", "rgenoud", "xgboost"))
 # Experiment
 
 The matter of experiment was comparing two performance measures F1 score and AUCPR (area under precision-recall curve) of 4 xgboost models with different optimization functions:
+
 * cross-entropy (standard optimization function)
 * focal loss
 * weighted cross-entropy
@@ -22,7 +23,9 @@ The best value for both measures was found by performing hyper parameter search 
 
 # Training data 
 This experiment requires special kind of imbalanced training set so we provided our own one from real-world application. It is a dataset consisting of 118 features (X0-X117) and target binary class (Class) representing claims of one of Insurance Company with label denoting if given case is fraudulent or not. Values of features are effect of performing normalization and PCA transformation on original data. The dataset can be download from following link.
+
 * [Training dataset](<link-to-drive>)
+
 In order to repeat the experiment download the CSV file from the link and put it in <i>data</i> directory of this repository.
 
 # Running the experiment
