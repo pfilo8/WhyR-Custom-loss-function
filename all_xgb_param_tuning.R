@@ -70,7 +70,7 @@ bilinear_loss_xgb_params <- c(
 
 get.tuned.params <- function(df, task, learner, par.set) {
 
-  control <- makeTuneControlRandom(maxit = 64L)
+  control <- makeTuneControlMBO(budget=60)
   resample_desc <- makeResampleDesc("CV", iters = 5, stratify = TRUE)
   
   tunedParams <- tuneParams(
