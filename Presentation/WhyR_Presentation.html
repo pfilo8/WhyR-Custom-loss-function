@@ -122,43 +122,33 @@ slide:not(.current) .plotly.html-widget{
 <li>Results and conclusions</li>
 </ol>
 
+</article></slide><slide class=""><hgroup><h2>GitHub repository</h2></hgroup><article  id="github-repository" class="centered">
+
+<p>Source codes and data repository:</p>
+
+<p><a href='https://github.com/pfilo8/WhyR-Presentation' title=''>https://github.com/pfilo8/WhyR-Presentation</a></p>
+
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Motivation and problem statement</h2></hgroup><article  id="motivation-and-problem-statement">
 
 </article></slide><slide class=""><hgroup><h2>Motivation</h2></hgroup><article  id="motivation">
 
 <ul>
-<li>Asymetrical cost of mistakes both in classification and regression problems
-
-<ul>
-<li>Medical use cases</li>
-<li>Fraud detection</li>
-</ul></li>
-<li>Highly imbalanced dataset
-
-<ul>
-<li>Fraud detection</li>
-<li>Object detection</li>
-</ul></li>
+<li>Highly imbalanced datasets are very common case in insurance industry</li>
+<li>Preserving high precision of model predictions with respect to recall is very important case when dealing with fraud detection problems</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Problem statement</h2></hgroup><article  id="problem-statement">
 
-<p>Dataset:</p>
+<p>Status quo:</p>
 
 <ul>
-<li>Imbalanced dataset</li>
+<li>Binary classification algorithms often underperform in predicting positive values on highly imbalanced datasets</li>
 </ul>
 
-<p>Problem:</p>
+<p>Goal:</p>
 
 <ul>
-<li>Classification problem = Cross entropy (symetric function)</li>
-</ul>
-
-<p>Tool:</p>
-
-<ul>
-<li>XGBoost with implementation of custom loss function</li>
+<li>Improvement of &quot;postive class friendly&quot; performance measure for highly imbalanced dataset in binary classification problem</li>
 </ul>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Theoretical aspect</h2></hgroup><article  id="theoretical-aspect">
@@ -188,7 +178,7 @@ slide:not(.current) .plotly.html-widget{
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Experiment</h2></hgroup><article  id="experiment">
 
-</article></slide><slide class=""><hgroup><h2>Experiment descriptions</h2></hgroup><article  id="experiment-descriptions" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Experiment description</h2></hgroup><article  id="experiment-description" class="smaller">
 
 <p>Dataset:</p>
 
@@ -202,7 +192,6 @@ slide:not(.current) .plotly.html-widget{
 <p>Metric:</p>
 
 <ul>
-<li>F1 Score</li>
 <li>AUCPR</li>
 </ul>
 
@@ -240,7 +229,6 @@ slide:not(.current) .plotly.html-widget{
 
 <ul>
 <li>Providing essential derivatives for bilinear loss</li>
-<li>Providing calculations about equality of log bilinear loss and weighted cross entropy</li>
 <li>Implementation of custom loss functions</li>
 <li>Implementation of mlr wrapper for XGBoost with custom loss functions</li>
 <li>Implementation of mlr wrapper for AUCPR measure</li>
@@ -252,9 +240,9 @@ slide:not(.current) .plotly.html-widget{
 
 <table class = 'rmdtable'>
 <tr class="header">
-<th align="left">Loss.function</th>
+<th align="left">Performance.Measure</th>
 <th align="right">Cross.Entropy</th>
-<th align="right">Focal.loss</th>
+<th align="right">Focal.Loss</th>
 <th align="right">Weighted.CE</th>
 <th align="right">Bilinear</th>
 </tr>
@@ -267,11 +255,21 @@ slide:not(.current) .plotly.html-widget{
 </tr>
 </table>
 
+</article></slide><slide class=""><hgroup><h2>Alternative results</h2></hgroup><article  id="alternative-results">
+
+<p>Wang C., Deng C., Wang S. (August 2019) &quot;Imbalance-XGBoost: Leveraging Weighted and Focal Losses for Binary Label-Imbalanced Classification with XGBoost&quot;</p>
+
+<ul>
+<li>XGBoost with Weighted Cross Entropy and Focal Loss</li>
+<li>Improvement of F1 Score at Parkinson’s Disease Dataset (3:1 ratio) compared to other classification algorithms</li>
+<li>No standard XGBoost results presented</li>
+</ul>
+
 </article></slide><slide class=""><hgroup><h2>Conclusions</h2></hgroup><article  id="conclusions">
 
 <ul>
-<li>Conclusion 1</li>
-<li>Conclusion 2</li>
+<li>According to our experiment changing loss function doesn&#39;t increase AUCPR measure</li>
+<li>This method is not applicable for highly imbalanced datasets (100:1 ratio) or AUCPR measure is insensitive to changes of objective</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section" class="flexbox vcenter">

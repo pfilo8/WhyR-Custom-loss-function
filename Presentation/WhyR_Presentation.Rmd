@@ -25,25 +25,28 @@ Data Science Team at DataWalk
 4. Implementation challenges
 5. Results and conclusions
 
+## GitHub repository {.centered}
+
+Source codes and data repository:
+
+https://github.com/pfilo8/WhyR-Presentation
+
 # Motivation and problem statement
 
 ## Motivation 
 
-* Preserving high precision of model predictions with respect to recall
-* Highly imbalanced datasets
-    + Fraud detection
-    + Object detection
+* Highly imbalanced datasets are very common case in insurance industry
+* Preserving high precision of model predictions with respect to recall is very important case when dealing with fraud detection problems
 
 ## Problem statement
 
 Status quo:
 
-* Binary classification algorithms often underperforms in predicting positive values on highly imbalanced datasets
+* Binary classification algorithms often underperform in predicting positive values on highly imbalanced datasets
 
 Goal:
 
-* Improvement of "postive class friendly" performance measure for highly imbalanced datasets in binary classification problems
-
+* Improvement of "postive class friendly" performance measure for highly imbalanced dataset in binary classification problem
 
 # Theoretical aspect
 
@@ -73,7 +76,7 @@ $$ L_{CE+B}=(1-\alpha)[−ylog(\hat{y})+(1−y)log(1−\hat{y})] + \alpha[yD + \
 
 # Experiment
 
-## Experiment descriptions {.smaller}
+## Experiment description {.smaller}
 
 Dataset:
 
@@ -84,7 +87,6 @@ Dataset:
 
 Metric:
 
-* F1 Score
 * AUCPR
 
 Experiment:
@@ -115,7 +117,6 @@ For implementation we used widely known R packages:
 Our contributions:
 
 * Providing essential derivatives for bilinear loss
-* Providing calculations about equality of log bilinear loss and weighted cross entropy
 * Implementation of custom loss functions
 * Implementation of mlr wrapper for XGBoost with custom loss functions
 * Implementation of mlr wrapper for AUCPR measure
@@ -128,9 +129,9 @@ Our contributions:
 library(knitr)
 
 results <- data.frame(
-  'Loss function' = c('AUCPR'),
+  'Performance Measure' = c('AUCPR'),
   'Cross Entropy' = c(0.0742625),
-  'Focal loss' = c(0.0727012),
+  'Focal Loss' = c(0.0727012),
   'Weighted CE' = c(0.0724779),
   'Bilinear' = c(0.0641854),
   stringsAsFactors = FALSE
@@ -139,10 +140,18 @@ results <- data.frame(
 kable(results)
 ```
 
+## Alternative results
+
+Wang C., Deng C., Wang S. (August 2019) "Imbalance-XGBoost: Leveraging Weighted and Focal Losses for Binary Label-Imbalanced Classification with XGBoost"
+
+* XGBoost with Weighted Cross Entropy and Focal Loss
+* Improvement of F1 Score at Parkinson’s Disease Dataset (3:1 ratio) compared to other classification algorithms
+* No standard XGBoost results presented
+
 ## Conclusions
 
-* Conclusion 1
-* Conclusion 2
+* According to our experiment changing loss function doesn't increase AUCPR measure
+* This method is not applicable for highly imbalanced datasets (100:1 ratio) or AUCPR measure is insensitive to changes of objective
 
 ## {.flexbox .vcenter}
 
